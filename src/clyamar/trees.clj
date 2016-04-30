@@ -42,10 +42,12 @@
     (vector
        (map #(% 0)
          (filter #(< thold ((% 1) feature))
-         (map vector (node 0) (node 1))))
+                 node
+                 ))
        (map #(% 0)
          (filter #(>= thold ((% 1) feature))
-         (map vector (node 0) (node 1))))))
+                 node
+                 ))))
 
 (defn cicha-score [bin-targets]
   " Calculate Cicha score for given sequences of targets."
@@ -61,19 +63,40 @@
                     (vector feature thold
                            (cicha-score (map #(targets-split feature thold %) nodes))))) thresholds)))
 
-
 (defn split-one-node [feature thold node]
     (vector
          (filter #(< thold ((% 1) feature))
-         (map vector (node 0) (node 1)))
+                 node)
          (filter #(>= thold ((% 1) feature))
-         (map vector (node 0) (node 1)))))
+                 node)))
 
 (defn apply-split [feature thold nodes]
   (reduce into [] (map #(split-one-node feature thold %)
-       nodes))
-  )
+       nodes)))
 
+(defn build-tree [nodes thresholds depth]
+  (println "Depth:" depth)
+  (println nodes)
+
+  ( let [[feature thold score]  (find-oblivious-split nodes thresholds)
+         level (dec depth)
+         new-nodes (apply-split feature thold nodes)]
+        (if (zero? level)
+        nil
+        (vector feature thold (build-tree new-nodes thresholds level) )
+          )))
+
+(defn tree [targets features depth granularity]
+   (let [nodes [(map vector targets features)]
+        thresholds (create-thresholds features granularity)]
+     (println thresholds)
+     (build-tree nodes thresholds depth)
+     ))
+
+(tree targets-b features-b 5 5)
+
+
+(defn tf-to-node [targets features] (map vector targets features))
 (apply-split 0 1 [[targets features] [targets-b features-b]])
 
 (def features [[1 1 5 2 3 5 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
@@ -89,8 +112,15 @@
                [2 1 4 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
                [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
                [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [1 1 5 2 3 5 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [2 1 4 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+               [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
                [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]])
-(def targets-b [1 3 0 1 2] )
+(def targets-b [1 3 0 1 2 1 2 0 1 3 2 1] )
 
 (map vector targets features)
 
@@ -99,11 +129,12 @@
 (cicha [[[1 ] [2 1 3 0]] [[1] [1 3 0 2]]])
 
 
-(map #(map first %)  (targets-split 0 1 [targets features]))
+;(map #(map first %)  (targets-split 0 1 [targets features]))
 
 
-(find-oblivious-split [ [targets features] [targets-b features-b]] (create-thresholds features 1))
+(find-oblivious-split (map #(apply tf-to-node %) [ [targets features] [targets-b features-b]]) (create-thresholds features 1))
 (m-variance (flatten (map #(repeat (count %) (mean %) ) (map flatten [[1 0] [1 1 0] [[1 1] [1 1 0]]]))))
 
 (def nodes [ [targets features] [targets-b features-b]])
 (def thresholds (create-thresholds features 2))
+
