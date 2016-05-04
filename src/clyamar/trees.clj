@@ -106,7 +106,7 @@
 
 
 
- (leaves-score [(tf-to-node targets-b features-b) (tf-to-node targets features)] 0.1)
+; (leaves-score [(tf-to-node targets-b features-b) (tf-to-node targets features)] 0.1)
 
 (defn build-tree [nodes thresholds depth alpha]
   ;(println "Depth:" depth)
@@ -150,61 +150,65 @@
     (let [one-tree (tree targets features depth granularity alpha)
           next-num (inc tree-num)
           next-targets (map - targets (map #(tree-rank % one-tree) features))]
+      (println "Tree no." tree-num)
+      (println one-tree )
             (recur next-num next-targets (conj forest one-tree))))))
 
-(map - [1 2 3] [1 1 1])
-
-(find-oblivious-split [(tf-to-node targets-b features-b)] (create-thresholds features-b 10))
-(tree targets-b features-b 2 15 1.0)
-(forest targets-b features-b 2 15 0.1 100)
-
- (apply-split 5 3 [(tf-to-node targets-b features-b)])
-
- (tree-rank
-   [1 1 1 1 1 5 4 1 5 5 1 4 1 7 1 8 9 9 1 10]
-   (tree targets-b features-b 10 15)
-   )
-
- ((last (tree targets-b features-b 2 15)) )
-
-(def features [[1 1 5 2 3 5 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-               [2 1 4 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-               [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-               [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-               [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-               [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-               [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]])
-(def targets   [1 2 0 1 3 2 1] )
-
-(def features-b [[1 1 5 2 3 5 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-                 [2 1 4 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-                 [2 1 4 2 3 1 4 4 6 7 6 6 7 7 8 8 9 9 10 10]
-                 [4 1 2 2 3 3 4 4 5 5 6 2 1 7 8 8 9 9 10 10]
-                 [4 1 2 2 3 3 4 5 5 5 6 6 7 7 1 8 9 9 10 10]
-                 [1 1 5 2 3 5 4 4 5 5 6 4 7 7 8 8 9 9 10 10]
-                 [2 1 4 2 3 3 1 4 5 2 6 6 7 7 3 8 9 9 10 10]
-                 [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-                 [2 1 4 2 3 1 4 4 5 5 6 6 2 7 3 8 9 9 10 10]
-                 [4 1 2 2 3 3 4 4 5 5 6 6 2 7 8 8 9 9 10 10]
-                 [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
-                 [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]])
-(def targets-b [1 0 0 1 0 2 0 0 1 0 0 1 0] )
-
-(/ (+ 10 8 6) 3)
-
-(cicha-score [[[1 3] [1 2 0]] [[1 2] [1 3 0]]])
-(cicha-score [[[1 ] [2 1 3 0]] [[1] [1 3 0 2]]])
-(neco-score [[[1 ] [2 1 3 0]] [[1] [1 3 0 2]]])
-(neco-score [[[1 3] [1 2 0]] [[1 2] [1 3 0]]])
-
-;(map #(map first %)  (targets-split 0 1 [targets features]))
-(find-oblivious-split (map #(apply tf-to-node %) [[targets-b features-b]]) (create-thresholds features 1))
 
 
-(find-oblivious-split (map #(apply tf-to-node %) [ [targets features] [targets-b features-b]]) (create-thresholds features 1))
-(m-variance (flatten (map #(repeat (count %) (mean %) ) (map flatten [[1 0] [1 1 0] [[1 1] [1 1 0]]]))))
+;(map - [1 2 3] [1 1 1])
 
-(def nodes [ [targets features] [targets-b features-b]])
-(def thresholds (create-thresholds features 2))
+;(find-oblivious-split [(tf-to-node targets-b features-b)] (create-thresholds features-b 10))
+;(tree targets-b features-b 2 15 1.0)
+;(forest targets-b features-b 2 15 0.1 100)
 
- (if (some empty? [[] [2] [2] [1 2]]) 0 1)
+; (apply-split 5 3 [(tf-to-node targets-b features-b)])
+
+; (tree-rank
+;   [1 1 1 1 1 5 4 1 5 5 1 4 1 7 1 8 9 9 1 10]
+;   (tree targets-b features-b 10 15)
+;   )
+
+; ((last (tree targets-b features-b 2 15)) )
+
+;(def features [[1 1 5 2 3 5 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;               [2 1 4 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;               [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;               [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+ ;              [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+ ;              [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+ ;              [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]])
+;(def targets   [1 2 0 1 3 2 1] )
+;
+;(def features-b [[1 1 5 2 3 5 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;                 [2 1 4 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;                 [2 1 4 2 3 1 4 4 6 7 6 6 7 7 8 8 9 9 10 10]
+;                 [4 1 2 2 3 3 4 4 5 5 6 2 1 7 8 8 9 9 10 10]
+;                 [4 1 2 2 3 3 4 5 5 5 6 6 7 7 1 8 9 9 10 10]
+;                 [1 1 5 2 3 5 4 4 5 5 6 4 7 7 8 8 9 9 10 10]
+;                 [2 1 4 2 3 3 1 4 5 2 6 6 7 7 3 8 9 9 10 10]
+;                 [2 1 4 2 3 1 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;                 [2 1 4 2 3 1 4 4 5 5 6 6 2 7 3 8 9 9 10 10]
+;                 [4 1 2 2 3 3 4 4 5 5 6 6 2 7 8 8 9 9 10 10]
+;                 [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]
+;                 [4 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10]])
+;(def targets-b [1 0 0 1 0 2 0 0 1 0 0 1 0] )
+;
+;(/ (+ 10 8 6) 3)
+
+;(cicha-score [[[1 3] [1 2 0]] [[1 2] [1 3 0]]])
+;(cicha-score [[[1 ] [2 1 3 0]] [[1] [1 3 0 2]]])
+;(neco-score [[[1 ] [2 1 3 0]] [[1] [1 3 0 2]]])
+;(neco-score [[[1 3] [1 2 0]] [[1 2] [1 3 0]]])
+
+;;(map #(map first %)  (targets-split 0 1 [targets features]))
+;(find-oblivious-split (map #(apply tf-to-node %) [[targets-b features-b]]) (create-thresholds features 1))
+
+
+;(find-oblivious-split (map #(apply tf-to-node %) [ [targets features] [targets-b features-b]]) (create-thresholds features 1))
+;(m-variance (flatten (map #(repeat (count %) (mean %) ) (map flatten [[1 0] [1 1 0] [[1 1] [1 1 0]]]))))
+
+;(def nodes [ [targets features] [targets-b features-b]])
+;(def thresholds (create-thresholds features 2))
+
+; (if (some empty? [[] [2] [2] [1 2]]) 0 1)

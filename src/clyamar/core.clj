@@ -10,5 +10,8 @@
         (let [[train-file] args
               features (clyamar.lightsvm/read-features train-file)
               labels (clyamar.lightsvm/read-labels train-file)
-              tholds (clyamar.trees/create-thresholds features 10)]
-          (println (count labels) (count (first features)) train-file)))
+              tholds (clyamar.trees/create-thresholds features 10)
+              model (clyamar.trees/forest labels features 3 5 0.1 10)]
+          (println (count labels) (count (first features)) train-file)
+          (println model)
+          ))
