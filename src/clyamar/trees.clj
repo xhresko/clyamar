@@ -141,6 +141,12 @@
               0)
             ) checks (range))))))
 
+(defn forest-rank [forest sample]
+  (r/fold + (map #(tree-rank sample %) forest)))
+
+(defn mse [labels predictions]
+  (float (/ (reduce + (map #(pow (- %1 %2) 2) labels predictions)) (count labels))))
+
 (defn forest [labels features depth granularity alpha trees]
   (loop [tree-num 1
          targets labels
@@ -152,6 +158,8 @@
           next-targets (map - targets (map #(tree-rank % one-tree) features))]
       (println "Tree no." tree-num)
       (println one-tree )
+      (println "MSE:")
+      (println (mse labels (map #(forest-rank forest %) features)))
             (recur next-num next-targets (conj forest one-tree))))))
 
 
