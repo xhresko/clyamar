@@ -7,10 +7,13 @@ Simple forest learning algorithm for Clojure.
 1. Make sure you have [Leiningen](http://leiningen.org/) installed  
 
 2. Clone project from GitHub.
+
 `git clone https://github.com/xhresko/clyamar.git`
 
 3. Create uberjar for standalone usage.
+
 `cd clyamar`
+
 `lein uberjar`
 
 
@@ -18,11 +21,20 @@ Simple forest learning algorithm for Clojure.
 
 Run the app with args
 
-    $ java -jar clyamar-0.1.0-standalone.jar [args]
+    $ java -jar clyamar-0.1.0-standalone.jar train-file depth granularity alpha trees
+    
 
 ## Options
 
-FIXME: listing of options this app accepts.
+**train-file** - file with training samples (in LightSVM format)
+
+**depth** - depth of trees
+
+**granularity** - number of thresholds used for feature while creating a split
+ 
+**alpha** - learning rate
+
+**trees** - number of trees in the forest
 
 ## Examples
 
