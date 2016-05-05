@@ -10,9 +10,7 @@
         (let [[train-file depth granularity alpha trees] args
               features (clyamar.lightsvm/read-features train-file)
               labels (clyamar.lightsvm/read-labels train-file)
-              ;tholds (clyamar.trees/create-thresholds features 10)
-              ; labels features depth granularity alpha trees
-              model (clyamar.trees/forest
+              model (clyamar.trees/create-forest
                       labels
                       features
                       (read-string depth)
