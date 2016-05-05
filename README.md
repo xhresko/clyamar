@@ -8,13 +8,13 @@ Simple forest learning algorithm for Clojure.
 
 2. Clone project from GitHub.
 
-`git clone https://github.com/xhresko/clyamar.git`
+    `git clone https://github.com/xhresko/clyamar.git`
 
 3. Create uberjar for standalone usage.
 
-`cd clyamar`
+    `cd clyamar`
 
-`lein uberjar`
+    `lein uberjar`
 
 
 ## Usage
