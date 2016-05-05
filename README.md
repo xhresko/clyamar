@@ -38,12 +38,18 @@ Run the app with args
 
 ## Examples
 
-...
+Download dataset for regression task from Eunite 2001 competition.
+
+`$ wget https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/regression/eunite2001 -O /tmp/eunite2001.libsvm`
+
+Start learning using Leiningen (while inside the project directory). 
+
+`$ lein run /tmp/eunite2001.libsvm 3 20 0.15 30`
 
 ### Bugs
 
-...
-
+- problems with some LightSVM data format "implementations"
+ 
 
 ## License
 

@@ -9,10 +9,11 @@
   (read-string ((str/split line #" ") 0)))
 
 (defn parse-features [line]
-  ; TODO: Remove hard coded drop of first feature (qid)
   (into [] (map
              #(read-string ((str/split % #":") 1))
-             (drop 2 (str/split ((str/split line #"#") 0) #" ")))))
+             ; Drop the "first" feature (query id in datasets)
+             ;(drop 2 (str/split ((str/split line #"#") 0) #" ")))))
+             (drop 1 (str/split ((str/split line #"#") 0) #" ")))))
 
 (defn read-labels [svm-file]
   "Read numerical labels from LightSVM file."
