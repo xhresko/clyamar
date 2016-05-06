@@ -153,3 +153,15 @@
         (println "MSE:")
         (println (mse labels (map #(forest-rank forest %) features)))
         (recur next-num next-targets (conj forest one-tree))))))
+
+(defn print-predictions [features model-file]
+  "Print predictions for given data on given model."
+  (let [forest (read-string (slurp model-file))]
+    (doseq [prediction (map #(forest-rank forest %) features)]
+      (println prediction))))
+
+(defn print-eval-forest [labels features model-file]
+  "Calculate and print MSE for given data on given model."
+  (let [forest (read-string (slurp model-file))]
+    (println "MSE:" (mse labels (map #(forest-rank forest %) features)))
+    ))
