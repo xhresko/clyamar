@@ -37,7 +37,7 @@
    ["-h" "--help"]])
 
 (defn usage [options-summary]
-  (->> ["CLYAMAR 0.1.0 - implementation of oblivious MART forest."
+  (->> ["CLYAMAR 0.2.0 - implementation of oblivious MART forest."
         ""
         "Usage: program-name [options] action"
         ""
