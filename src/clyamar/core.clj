@@ -10,23 +10,23 @@
   [;; First three strings describe a short-option, long-option with optional
    ;; example argument description, and a description. All three are optional
    ;; and positional.
-   ["-t" "--trees N" "Learn N trees. Default 10."
+   ["-t" "--trees N" "Learn N trees."
     :default 10
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 1 % 0x10000) "Must be a number between 1 and 65536"]]
-   ["-d" "--depth N" "Set tree depth to N. Default 5."
+   ["-d" "--depth N" "Set tree depth to N."
     :default 5
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 1 % 0x10000) "Must be a number between 1 and 65536"]]
-   ["-g" "--granularity N" "Consider maximum of N splits for each feature. Default 10."
+   ["-g" "--granularity N" "Consider maximum of N splits for each feature."
     :default 10
     :parse-fn #(Integer/parseInt %)
     :validate [#(< 1 % 0x10000) "Must be a number between 1 and 65536"]]
-   ["-a" "--alpha F" "Set learning coefficient. Default 0.13."
+   ["-a" "--alpha F" "Set learning coefficient."
     :default 0.13
     :parse-fn #(Float/parseFloat %)
     :validate [#(<= 0.0 % 1.0) "Must be a number between 0 and 1"]]
-   ["-i" "--input-file FILE" "Datafile with some samples."
+   ["-i" "--input-file FILE" "File with samples (in LightSVM format)"
     :parse-fn #(str %)
     ;:validate [ #((.exists (as-file ((str/split % #" ") 1)))) "Must be a valid file path."]
     ]
@@ -34,10 +34,7 @@
     :parse-fn #(str %)
     ;:validate [ #((.exists (as-file ((str/split % #" ") 1)))) "Must be a valid file path."]
     ]
-   ;; If no required argument description is given, the option is assumed to
-   ;; be a boolean option defaulting to nil
-   [nil "--detach" "Detach from controlling process"]
-   ["-h" "--help" "HELP!"]])
+   ["-h" "--help"]])
 
 (defn usage [options-summary]
   (->> ["CLYAMAR 0.1.0 - implementation of oblivious MART forest."
@@ -52,7 +49,7 @@
         "  eval     Use an existing model for evaluation"
         "  predict  Use an existing model for generating predictions"
         ""
-        "Please refer to the manual page for more information."]
+        "Please refer to https://github.com/xhresko/clyamar for more information."]
        (str/join \newline)))
 
 (defn error-msg [errors]

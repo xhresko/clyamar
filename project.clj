@@ -1,4 +1,4 @@
-(defproject clyamar "0.1.0"
+(defproject clyamar "0.2.0"
   :description "Simple forest learner for Clojure."
   :url "https://github.com/xhresko/clyamar"
   :license {:name "Eclipse Public License"

@@ -21,20 +21,32 @@ Simple forest learning algorithm for Clojure.
 
 Run the app with args
 
-    $ java -jar clyamar-0.1.0-standalone.jar train-file depth granularity alpha trees
+    $ java -jar clyamar-0.2.0-standalone.jar [options] action
     
 
 ## Options
 
-**train-file** - file with training samples (in LightSVM format)
+_--input-file_ - file with samples (in LightSVM format) 
 
-**depth** - depth of trees
+_--model-file_ - file for model saving/loading 
 
-**granularity** - number of thresholds used for feature while creating a split
+_--depth_ -  tree depth
+
+_--granularity_ - number of thresholds used for feature while creating a split
  
-**alpha** - learning rate
+_--alpha_ - learning rate
 
-**trees** - number of trees in the forest
+_--trees_ - number of trees in the forest
+
+
+## Actions
+
+_train_ - create model on given labeled dataset
+
+_eval_ - evaluate given model on given labeled dataset
+
+_predict_ - print predictions for given dataset
+ 
 
 ## Examples
 
@@ -44,11 +56,12 @@ Download dataset for regression task from Eunite 2001 competition.
 
 Start learning using Leiningen (while inside the project directory). 
 
-`$ lein run /tmp/eunite2001.libsvm 3 20 0.15 30`
+`$ lein run train -i /tmp/eunite2001.libsvm`
 
 ### Bugs
 
 - problems with some LightSVM data format "implementations"
+- different results of MSE for evaluation and training
  
 
 ## License

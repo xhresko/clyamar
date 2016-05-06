@@ -4,16 +4,15 @@ All notable changes to this project will be documented in this file. This change
 ## [Unreleased]
 ### Changed
 
-## [0.1.1] - 2016-04-24
-### Changed
-
-### Removed
+## [0.2.0] - 2016-05-06
+### Added
+- basic functionality - train (with model saving), eval, predict
 
 ### Fixed
+- CLI arguments handling
 
 ## 0.1.0 - 2016-04-24
 ### Added
+- simple implementation of oblivious MART forest
 
-[Unreleased]: https://github.com/your-name/clyamar/compare/0.1.1...HEAD
-[0.1.1]: https://github.com/your-name/clyamar/compare/0.1.0...0.1.1
     
